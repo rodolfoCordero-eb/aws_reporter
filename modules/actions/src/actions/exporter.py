@@ -1,4 +1,5 @@
 from abc import ABC,abstractmethod
+from datetime import datetime
 
 class Exporter(ABC):
     @abstractmethod
@@ -6,5 +7,7 @@ class Exporter(ABC):
         pass
 
     @abstractmethod
-    def save(self,):
+    def run(self,importer_name:str,date:datetime):
         pass
+
+    

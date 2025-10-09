@@ -32,3 +32,10 @@ class Importer(ABC):
         with open(full_path+filename,'w') as f:
             f.write(json.dumps(content))
         print(f"File {filename} written successfully.")
+
+    def list_states(self,acc_id:str, acc_name:str)->list:
+        full_path = f'{self.path}/{acc_name}_{acc_id}/json/{self.name()}/'
+        elements = os.listdir(full_path) if os.path.exists(full_path) else []
+        dirs =  [d for d in elements if os.path.isdir(os.path.join(full_path, d))]
+        dirs.sort(reverse=True)
+        return dirs
