@@ -1,0 +1,34 @@
+from abc import ABC,abstractmethod
+import boto3.session
+from pathlib import Path
+import os
+import json
+from datetime import datetime
+class Importer(ABC):
+    def __init__(self,path="/tmp/"):
+        self.path = Path(path)
+
+    @abstractmethod
+    def name(self)->str:
+        pass
+
+    @abstractmethod
+    def run(self,session:boto3.session,acc_id:str, acc_name:str, region:str) ->None:
+        pass
+    
+    def save(self,acc_id:str, acc_name:str,content: json)->None:
+        now = datetime.now()
+
+        full_path = f'{self.path}/{acc_name}_{acc_id}/json/{self.name()}/{now.strftime("%Y-%m-%d")}/'
+        self.write_to_file(full_path,content)
+
+
+    def write_to_file(self,full_path:str,content:json)->None:
+        filename = self.name()+".json"
+        if not os.path.exists(full_path):
+            print(f"Creating directory: {full_path}")
+            os.makedirs(full_path, exist_ok=True)
+        print(f"Writing to file: {full_path+filename}")
+        with open(full_path+filename,'w') as f:
+            f.write(json.dumps(content))
+        print(f"File {filename} written successfully.")

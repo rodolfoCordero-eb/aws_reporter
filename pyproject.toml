@@ -1,0 +1,28 @@
+[project]
+name = "aws_rps"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Rodolfo Cordero", email = "1034434+rcor@users.noreply.github.com" }]
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.poetry]
+packages = [
+    { include = "src" },
+    { include = "modules/actions/src", from = "modules/actions" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+boto3 = "^1.34"
+pytest = "^8.0"
+
+[tool.poetry.workspace]
+members = [
+    "modules/actions",
+    "src"
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

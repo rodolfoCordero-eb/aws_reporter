@@ -1,0 +1,85 @@
+# ========================================
+# Python general
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Poetry
+.poetry/
+poetry.lock
+
+# ========================================
+# IDEs y editores
+# ========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ========================================
+# Archivos temporales / logs
+# ========================================
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# ========================================
+# Pytest / Coverage / Reports
+# ========================================
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.cache/
+.tox/
+
+# ========================================
+# Build / Distribución
+# ========================================
+build/
+dist/
+*.egg-info/
+.eggs/
+*.spec
+
+# ========================================
+# Archivos generados / datos locales
+# ========================================
+*.json
+*.csv
+*.xlsx
+*.sqlite3
+/tmp/
+output/
+data/
+logs/
+
+# ========================================
+# Configs sensibles
+# ========================================
+.env
+.env.*
+*.pem
+*.key
+*.crt
+secrets.json
+
+# ========================================
+# Jupyter / notebooks
+# ========================================
+.ipynb_checkpoints/
+
+# ========================================
+# Otros
+# ========================================
+__pypackages__/

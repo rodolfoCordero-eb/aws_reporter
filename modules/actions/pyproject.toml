@@ -1,0 +1,23 @@
+[project]
+name = "actions"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Rodolfo Cordero",email = "1034434+rcor@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3 (>=1.40.49,<2.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "actions", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
