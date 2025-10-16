@@ -1,5 +1,5 @@
 [project]
-name = "actions"
+name = "resources"
 version = "0.1.0"
 description = ""
 authors = [
@@ -8,16 +8,17 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "boto3 (>=1.40.49,<2.0.0)"
+    "actions @ ../actions",
+    "boto3 (>=1.40.51,<2.0.0)"
 ]
 
 [tool.poetry]
-packages = [{include = "actions", from = "src"}]
+packages = [{include = "resources", from = "src"}]
 
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.2"
-
+[tool.poetry.dependencies]
+actions = {develop = true}
+sessions = {develop = true}
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"

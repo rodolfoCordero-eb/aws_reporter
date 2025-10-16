@@ -8,6 +8,17 @@ class Importer(ABC):
     def __init__(self,path="/tmp/"):
         self.path = Path(path)
 
+    def set_path(self,path:str)->None:
+        self.path = Path(path)
+
+    @abstractmethod
+    def description(self)->str:
+        pass
+
+    @abstractmethod
+    def menu_name(self)->str:
+        pass
+
     @abstractmethod
     def name(self)->str:
         pass

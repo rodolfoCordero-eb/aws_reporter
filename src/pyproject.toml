@@ -6,17 +6,27 @@ authors = [
     {name = "Rodolfo Cordero",email = "1034434+rcor@users.noreply.github.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-  
-]
+requires-python = ">=3.13,<4.0"
+
+
+
 
 [tool.poetry]
-packages = [{include = "src", from = "src"}]
+packages = [{include = "src" }]
 
+[tool.poetry.group.dev.dependencies]
+textual-dev = "^1.8.0"
+
+[project.scripts]
+spam-cli = "src.cli:main"
 
 [tool.poetry.dependencies]
-actions = {develop = true}
+textual = ">=6.3.0,<7.0.0"
+
+resources = { path = "../modules/resources", develop = true }
+sessions = { path = "../modules/sessions", develop = true }
+actions   = { path = "../modules/actions", develop = true }
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"

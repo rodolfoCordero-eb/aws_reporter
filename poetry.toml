@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "modules/actions",
+    "modules/sessions",
+    "modules/resources",
+    "src"
+]

@@ -1,0 +1,107 @@
+from textual.app import App, ComposeResult
+from textual.widgets import Header, Footer, Button, Static
+from textual.containers import Container
+import resources
+
+# Main Application
+class MenuApp(App):
+    CSS = """
+    Screen {
+        layout: vertical;
+    }
+
+    .content {
+        align: center middle;
+        padding: 2;
+    }
+
+    Button {
+        width: 40%;
+        margin: 1 auto;
+    }
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.importers = resources.get_importers()
+        self.selected_importer = None
+        self.selected_mode = None
+
+    def compose(self) -> ComposeResult:
+        yield Header()
+        yield Container(Static("Seleccione un Importer:"), classes="content")
+        for importer in self.importers:
+            yield Button(importer.menu_name(), id=importer.menu_name())
+        yield Footer()
+
+    def on_button_pressed(self, event: Button.Pressed):
+        button_id = event.button.id
+
+        # Fase 1: Selección de importer
+        if not self.selected_importer:
+            for importer in self.importers:
+                if importer.menu_name() == button_id:
+                    self.selected_importer = importer
+                    break
+            self._show_execution_mode()
+            return
+
+        # Fase 2: Selección del modo
+        if button_id in ("single", "organization"):
+            self.selected_mode = button_id
+            self._execute_importer_action(button_id)
+            return
+
+        # Fase 3: Volver o finalizar
+        if button_id == "back":
+            self._reset_to_start()
+            return
+
+    # ---- Menús ----
+    def _show_execution_mode(self):
+        """Display Single / Organization options."""
+        self.query("Button").remove()
+        self.query("Static").first().update(
+            f"Importer seleccionado: {self.selected_importer.menu_name()}\n"
+            "Seleccione el tipo de ejecución:"
+        )
+        self.mount(Button("Single", id="single"))
+        self.mount(Button("Organization", id="organization"))
+        self.mount(Button("⬅️ Back", id="back"))
+
+    def _reset_to_start(self):
+        """Return to importer selection menu."""
+        self.query("Button").remove()
+        self.query("Static").first().update("Seleccione un Importer:")
+        self.selected_importer = None
+        self.selected_mode = None
+        for importer in self.importers:
+            self.mount(Button(importer.menu_name(), id=importer.menu_name()))
+
+    # ---- Acciones ----
+    def _execute_importer_action(self, mode: str):
+        """Aquí se ejecuta la acción real del importer según el modo."""
+        importer = self.selected_importer
+
+        # Aquí iría tu lógica real:
+        # Por ejemplo:
+        #   importer.run(mode)
+        #   importer.import_data()
+        #   importer.process()
+
+        # En este ejemplo, solo mostramos un resultado simulado:
+        msg = f"""
+        ✅ Importer seleccionado: {importer.menu_name()}
+        🔧 Modo: {mode.capitalize()}
+        📄 Descripción: {importer.description()}
+
+        (Aquí puedes agregar la lógica real para ejecutar el importer)
+        """
+        self.query("Button").remove()
+        self.query("Static").first().update(msg)
+        self.mount(Button("⬅️ Volver", id="back"))
+
+
+
+if __name__ == "__main__":
+    MenuApp().run()
