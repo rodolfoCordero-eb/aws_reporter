@@ -27,10 +27,9 @@ class Importer(ABC):
     def run(self,session:boto3.session,acc_id:str, acc_name:str, region:str) ->None:
         pass
     
-    def save(self,acc_id:str, acc_name:str,content: json)->None:
+    def save(self,acc_id:str, acc_name:str,region:str,content: json)->None:
         now = datetime.now()
-
-        full_path = f'{self.path}/{acc_name}_{acc_id}/json/{self.name()}/{now.strftime("%Y-%m-%d")}/'
+        full_path = f'{self.path}/{acc_name}_{acc_id}/json/{region}/{self.name()}/{now.strftime("%Y-%m-%d")}/'
         self.write_to_file(full_path,content)
 
 

@@ -5,10 +5,24 @@ from actions.exporter import Exporter
 from datetime import datetime
 
 class SingleSession:
-    def __init__(self,session:boto3.session, region:str="us-east-1"):
+    def __init__(self,session:boto3.session, region:str="us-east-1",account_id:str=None,account_name:str=None):
         self.session = session
+        #print(self.session)
         self.region = region
-        self.set_caller_identity()
+        if account_id and account_name:
+            self.account_id = account_id
+            self.account_name = account_name
+            self.userId = "N/A"
+            self.identity = {
+                "Account": account_id,
+                "UserId": "N/A",
+                "Arn": f"arn:aws:iam::{account_id}:root"
+            }
+            #print(f"🔍 Scanning account {self.account_id}-({self.account_name}) {self.account_name}...!!")
+        else:
+            self.set_caller_identity()
+
+        
 
     def set_caller_identity(self):
         org = self.session.client('organizations')
@@ -22,6 +36,10 @@ class SingleSession:
     
     def run_importer(self,importer:Importer,region:str=None):
         print(f"🚀 Running importer: {importer.name()} for account {self.account_id}-({self.account_name})...")
+        if not region:
+            region=self.region
+        print(f"🌍 Using region: {region}")
+        print(self.session)
         importer.run(self.session,self.account_id,self.account_name,region)
         print(f"✅ Importer {importer.name()} completed for account {self.account_id}-({self.account_name}).")
 

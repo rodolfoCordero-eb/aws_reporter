@@ -11,8 +11,12 @@ class OrgSession:
         self.sts_client = boto3.client("sts")
         self.list_accounts()
 
+    def get_default_session(self):
+        return SingleSession(self.session_default)
+    
     def assume_role(self,account_id, role_name):
         try:
+            print(f'Try to assume role {account_id} with the role:{role_name}')
             if account_id == self.acc_id:
                 return self.session_default
             response = self.sts_client.assume_role(
@@ -41,9 +45,8 @@ class OrgSession:
         sessions = []
         for account in self.accounts:
             account_id = account["Id"]
-            role_name = os.getenv("ROLE_NAME", self.ROLE_NAME)
-            session = self.assume_role(account_id, role_name)
+            session = self.assume_role(account_id, self.ROLE_NAME)
             if session:
-                sessions.append(SingleSession(session))
+               sessions.append(SingleSession(session,account_id=account_id,account_name=account["Name"] ))
         return sessions
        

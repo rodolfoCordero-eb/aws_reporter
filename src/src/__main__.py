@@ -2,7 +2,8 @@ import os
 import sys
 import resources    
 import sessions 
-from sessions import SingleSession, OrgSession
+from sessions import  OrgSession
+from resources import VPCPeeringImporter
 
 def print_importers(resources):
     importers = resources.get_importers()
@@ -17,10 +18,12 @@ def print_sessions(org_session):
 
 if __name__ == "__main__":
     resources_list=resources.get_importers("/db")
-    print_importers(resources)
+    #print_importers(resources)
     org_sess=OrgSession()
-    print_sessions(org_sess)
+    #print_sessions(org_sess)
     sessions=org_sess.get_single_sessions()
-    for sess in sessions:
-        print(sess.get_account_info())
-    print("hello world")
+    path = os.path.abspath("db")
+    for session in sessions:
+        print(session.get_account_info())
+        session.run_importer(VPCPeeringImporter(path),region="us-west-2")
+    
