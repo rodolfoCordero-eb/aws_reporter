@@ -23,6 +23,7 @@ class VPCPeeringImporter(Importer):
         vpc_peering_connections = []
         for page in page_iterator:
             vpc_peering_connections.extend(page.get('VpcPeeringConnections', []))  
+        self.write_resume(acc_name=acc_name,acc_id=acc_id,region=region,content=[len(vpc_peering_connections)])
         json_content = json.dumps(vpc_peering_connections, indent=2, default=str)
         print(f"Found {len(vpc_peering_connections)} VPC Peering Connections in region {region}.")
         print('--------------------------------------------------')

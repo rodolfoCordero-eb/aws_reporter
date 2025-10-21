@@ -49,3 +49,18 @@ class Importer(ABC):
         dirs =  [d for d in elements if os.path.isdir(os.path.join(full_path, d))]
         dirs.sort(reverse=True)
         return dirs
+    
+    def write_resume(self,acc_name:str,acc_id:str,region:str,content:list)->None:
+        now = datetime.now()
+        full_path = f'{self.path}/resumes/{region}/'
+
+        filename = f'resume_{self.name()}_{region}.csv'
+        if not os.path.exists(full_path):
+            print(f"Creating directory: {full_path}")
+            os.makedirs(full_path, exist_ok=True)
+        print(f"Writing to file: {full_path+filename}")
+        content = [self.name(),acc_id,acc_name, now.strftime("%Y-%m-%d %H:%M:%S"), content]
+        with open(full_path+filename,'a') as f:
+            content_str = ','.join(map(str, content))
+            f.write(content_str + '\n')
+        print(f"File {filename} written successfully.")
